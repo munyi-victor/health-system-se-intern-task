@@ -1,7 +1,11 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectDB from "./config/config";
+
+// import error middleware functions
+import { errorHandler, notFound } from "./middleware/error.middleware";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -18,6 +22,18 @@ app.use(cors({
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
 }));
+
+// middleware to parse cookies
+app.use(cookieParser(process.env.COOKIE_SECRET as string));
+
+// middleware to parse JSON
+app.use(express.json());
+// middleware to parse URL-encoded data
+app.use(express.urlencoded({ extended: true }));
+
+// middleware for handling errors
+app.use(errorHandler);
+app.use(notFound);
 
 // run the server
 app.listen(PORT, () => {
