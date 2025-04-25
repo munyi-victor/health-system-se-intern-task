@@ -83,3 +83,22 @@ export const loginDoctor = asyncHandler(async (req: Request, res: Response) => {
     throw new Error("Invalid username or password.");
   }
 });
+
+/**
+ * @desc    Log out a doctor and return JWT
+ * @route   GET /api/auth/logout
+ * @access  Private
+ */
+export const logoutDoctor = asyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.cookie("connect.sid", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({
+    message: "Logged Out Successfully",
+  });
+});
