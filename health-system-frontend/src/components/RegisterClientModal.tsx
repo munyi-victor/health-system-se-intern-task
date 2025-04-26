@@ -58,7 +58,7 @@ const RegisterClientModal = ({ closeModal }: ModalProps) => {
     <>
       <div
         className="fixed inset-0 z-50 overflow-y-auto bg-gray-900 bg-opacity-75 flex items-center justify-center px-4"
-        role="dialog" // Removed aria-hidden
+        role="dialog"
         aria-labelledby="modal-title"
       >
         <div className="relative w-full max-w-2xl md:max-w-xl mx-auto shadow rounded-xl bg-white p-4 pt-0 h-fit">
@@ -71,7 +71,7 @@ const RegisterClientModal = ({ closeModal }: ModalProps) => {
 
           <div className="flex flex-col gap-2 w-full justify-center items-center">
             <form onSubmit={handleRegisterClient} className="w-full">
-              <h2 className="text-2xl font-semibold mb-4">Register Client</h2>
+              <h2 className="text-xl text-gray-700 font-semibold mb-4">Register Client</h2>
               <input
                 type="text"
                 name="firstName"
