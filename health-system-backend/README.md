@@ -21,45 +21,45 @@ Node.js (>= 14.0.0)
 MongoDB (local or cloud instance)
 
 ### Step 1: Clone the repository
-bash
-Copy
-Edit
+```js
 git clone https://github.com/your-username/health-system-backend.git
 cd health-system-backend
+```
 ### Step 2: Install dependencies
-bash
-Copy
-Edit
+```js
 npm install
+```
 ### Step 3: Configure environment variables
 Create a .env file in the root of the project and add your MongoDB URI:
 
-bash
-Copy
-Edit
-MONGO_URI=your_mongo_db_connection_string
+```js
 PORT=5000
-SECRET_KEY=your_secret_key
+
+MONGODB_URI=mongodb_uri
+
+COOKIE_SECRET=cookie_secret
+
+JWT_SECRET=jwt_secret
+
+NODE_ENV=development
+```
 Step 4: Run the server
-bash
-Copy
-Edit
+```js
 npm run dev
-The server will run on http://localhost:5000.
+```
+The server will run on [http://localhost:5000].
 
 ## Endpoints
-POST /api/programs
+`POST /api/programs`
 Description: Create a new health program.
 
 Request body:
-
-json
-Copy
-Edit
+```js
 {
   "name": "Program Name",
   "description": "Program Description"
 }
+```
 Response: Returns the created program object.
 
 GET /api/programs
@@ -71,13 +71,11 @@ POST /:id/enroll
 Description: Enroll a client into one or more health programs.
 
 Request body:
-
-json
-Copy
-Edit
+```js
 {
   "programIds": ["programId1", "programId2"]
 }
+```
 Response: Returns the updated client object with enrolled programs.
 
 GET /search
