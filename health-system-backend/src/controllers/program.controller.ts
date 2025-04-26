@@ -49,8 +49,8 @@ export const searchPrograms = asyncHandler(async (req: any, res: any) => {
 
     const programs = await Program.find({
       $or: [
-        { firstName: new RegExp(query, "i") },
-        { lastName: new RegExp(query, "i") },
+        { name: new RegExp(query, "i") },
+        { description: new RegExp(query, "i") },
       ],
     });
 

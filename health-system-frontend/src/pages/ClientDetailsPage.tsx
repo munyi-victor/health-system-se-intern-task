@@ -10,6 +10,10 @@ const ClientDetailsPage = () => {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [selectedPrograms, setSelectedPrograms] = useState<string[]>([]);
   const [message, setMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPrograms, setFilteredPrograms] = useState<Program[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+
 
   const { data: client, loading, error } = useFetch<Client>(`http://localhost:5000/api/clients/${clientId}`);
 
@@ -61,6 +65,31 @@ const ClientDetailsPage = () => {
 
   if (loading) return <Spinner />;
   if (error) return <div>{error}</div>;
+
+  /**
+ * @desc logic to get search items (programs) from api
+ */
+  const handleSearch = () => {
+    setSearchLoading(true);
+    if (searchQuery === "") {
+      setFilteredPrograms([]);
+    } else {
+      const filtered = programs?.filter((program) =>
+        program.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        program.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredPrograms(filtered || []);
+    }
+
+    try {
+      axios.get(`/programs?search=${searchQuery}`)
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+      setFilteredPrograms([]);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
 
   return (
     <div className="p-4 max-w-3xl mx-auto flex flex-col items-center">
@@ -119,6 +148,55 @@ const ClientDetailsPage = () => {
       {/* Show other available programs a client is not enrolled in */}
       <div className="mt-4">
         <h1 className="text-xl text-gray-700 font-semibold">Available Programs</h1>
+
+        {/* search for programs */}
+        <div className="my-2">
+          <div className="flex items-center space-x-2">
+            <input
+              type="text"
+              placeholder="Search by name or description"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (e.target.value === "") {
+                  setFilteredPrograms([]);
+                } else {
+                  // display the programs that match the search query as you search
+                  const filtered = programs?.filter((program) =>
+                    program.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+                    program.name.toLowerCase().includes(e.target.value.toLowerCase())
+                  );
+                  setFilteredPrograms(filtered || []);
+                }
+              }}
+              className="border p-2 rounded-lg w-full"
+            />
+            <button onClick={handleSearch} type="button" className="bg-gray-700 border-0 outline-0 text-white rounded p-2">Search</button>
+          </div>
+
+          {/* display clienys from the search */}
+          {filteredPrograms.length > 0 && (
+            <form onSubmit={handleEnroll} className="flex flex-col gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                {filteredPrograms.map(program => (
+                  <label key={program._id} className="flex justify-between p-4 rounded-xl shadow-sm hover:shadow-md transition-all gap-3">
+                    <input type="checkbox" className="w-4" checked={selectedPrograms.includes(program._id)} onChange={() => handleCheckboxChange(program._id)} />
+                    <div>
+                      <p className="font-semibold">{program.name}</p>
+                      <p className="text-gray-700">{program.description}</p>
+                    </div>
+                  </label>
+                ))}
+              </div>
+
+              <button type="submit" className="bg-gray-700 text-white px-4 py-2 rounded">Enroll Selected Programs</button>
+
+              {message && <p className="mt-3 text-sm text-gray-700">{message}</p>}
+            </form>
+          )}
+
+          {searchLoading && <Spinner />}
+        </div>
 
         {availablePrograms.length > 0 ? (
           <form onSubmit={handleEnroll} className="flex flex-col gap-3">
