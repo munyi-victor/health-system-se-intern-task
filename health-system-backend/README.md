@@ -62,7 +62,7 @@ Request body:
 ```
 Response: Returns the created program object.
 
-`GET /api/programs  
+`GET /api/programs`  
 Description: Get all health programs.
 
 Response: Returns a list of all programs.
