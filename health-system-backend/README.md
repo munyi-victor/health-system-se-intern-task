@@ -47,7 +47,7 @@ Step 4: Run the server
 ```js
 npm run dev
 ```
-The server will run on [http://localhost:5000].
+The server will run on `http://localhost:5000`.
 
 ## Endpoints
 `POST /api/programs`
@@ -62,12 +62,12 @@ Request body:
 ```
 Response: Returns the created program object.
 
-GET /api/programs
+`GET /api/programs  
 Description: Get all health programs.
 
 Response: Returns a list of all programs.
 
-POST /:id/enroll
+`POST /:id/enroll`
 Description: Enroll a client into one or more health programs.
 
 Request body:
@@ -78,10 +78,10 @@ Request body:
 ```
 Response: Returns the updated client object with enrolled programs.
 
-GET /search
+`GET /search`
 Description: Search clients by first or last name.
 
-Query parameter: q (search query)
+Query parameter: `q` (search query)
 
 Response: Returns a list of clients that match the search query.
 
