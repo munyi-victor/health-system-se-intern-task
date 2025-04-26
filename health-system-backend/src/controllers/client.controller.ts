@@ -69,7 +69,7 @@ export const enrollClient = asyncHandler(async (req: any, res: any) => {
 });
 
 /**
- * @desc   Search clients by name or id
+ * @desc   Search clients by first or last name
  * @route  GET /api/clients/search?q=term
  */
 export const searchClients = asyncHandler(async (req: any, res: any) => {

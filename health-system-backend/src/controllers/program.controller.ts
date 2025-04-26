@@ -36,3 +36,27 @@ export const getPrograms = asyncHandler(async (_req: Request, res: Response) => 
   const programs = await Program.find().sort({ createdAt: -1 });
   res.status(200).json(programs);
 });
+
+/**
+ * @desc   Search programs by name or description
+ * @route  GET /api/programs/search?q=term
+ */
+export const searchPrograms = asyncHandler(async (req: any, res: any) => {
+  try {
+    const query = req.query.q as string;
+
+    if (!query) return res.status(400).json({ message: "Query is required." });
+
+    const programs = await Program.find({
+      $or: [
+        { firstName: new RegExp(query, "i") },
+        { lastName: new RegExp(query, "i") },
+      ],
+    });
+
+    res.status(200).json(programs);
+  } catch (err) {
+    console.error("Search error:", err);
+    res.status(500).json({ message: "Server error." });
+  }
+});

@@ -2,6 +2,7 @@ import express from "express";
 import {
   createProgram,
   getPrograms,
+  searchPrograms,
 } from "../controllers/program.controller";
 import { protect } from "../middleware/auth.middleware";
 
@@ -20,5 +21,12 @@ router.post("/", protect, createProgram);
  * @access  Private
  */
 router.get("/", protect, getPrograms);
+
+/**
+ * @route   GET /api/programs/search?q=Malaria
+ * @desc    Search for clients by name ordescription
+ * @access  Private
+ */
+router.get("/search", protect, searchPrograms);
 
 export default router;
