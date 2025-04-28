@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
-import useFetch from "../hooks/useFetch";
 
 interface ModalProps {
   closeModal: () => void;
@@ -38,7 +37,7 @@ const RegisterClientModal = ({ closeModal }: ModalProps) => {
       if (response.status !== 201) {
         throw new Error('Failed to register client');
       }
-      useFetch("http://localhost:5000/api/clients");
+      axios.get("/clients");
       console.log('Client registered:', response.data);
       closeModal();
     } catch (error) {

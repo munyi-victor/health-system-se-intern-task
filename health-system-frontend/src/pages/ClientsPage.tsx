@@ -107,8 +107,8 @@ const Clients = () => {
       {isLoading && <Spinner />}
 
       {/* display all the registered clients */}
+      <h1 className="text-2xl font-bold mb-4">All Clients</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <h1 className="text-2xl font-bold mb-4">All Clients</h1>
         {loading && <Spinner />}
         {error && <p className="text-red-500">{error}</p>}
         {clients?.map((client) => (
